@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Scatterplot from './components/Scatterplot'
+import {getPlotpoints} from './services/dataParser'
 
 class App extends Component {
+
+  state = {
+    plotpoints: []
+  }
+
+  componentWillMount(){
+    this.setState({
+      plotpoints: getPlotpoints()
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Scatterplot plotpoints={this.state.plotpoints}/>
       </div>
     );
   }
