@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { Scatter } from 'react-chartjs-2'
-import {prepareArrayPropsForChart} from '../../services/dataParser'
+import { prepareArrayPropsForChart } from '../../services/dataParser'
 
 class Scatterplot extends Component {
 
   render () {
-    
-    console.log(prepareArrayPropsForChart(this.props.plotpoints))
+    prepareArrayPropsForChart(this.props.plotpoints)
 
     const legendConfig = {
       display: true,
@@ -22,6 +21,7 @@ class Scatterplot extends Component {
         label: 'pass',
         pointBackgroundColor: 'rgba(101,182,60,1)',
         pointRadius: 10,
+        pointHitRadius: 15,
         data: this.props.plotpoints.filter((item) => item.status === 'pass')
       },
         {
@@ -40,12 +40,17 @@ class Scatterplot extends Component {
         }]
     }
 
-    const options = {
+    const chartConfig = {
+      
+      tooltips: {
+        enabled: false
+      },
       scales: {
         xAxes: [{
-          gridLines : {
-            display : false
+          gridLines: {
+            display: false,
           },
+
           type: 'time',
           time: {
             displayFormats: {
@@ -56,6 +61,12 @@ class Scatterplot extends Component {
         yAxes: [{
           gridLines: {
             borderDash: [8, 8],
+          },
+          ticks: {
+            min: 0,
+            max: 300,
+            stepSize: 30,
+            callback: (value, index, values) => value % 60 === 0 ? `${value / 60} min` : ''
           }
         }]
       }
@@ -63,7 +74,7 @@ class Scatterplot extends Component {
 
     return (
       <div>
-        <Scatter data={data} legend={legendConfig} options={options}/>
+        <Scatter data={data} legend={legendConfig} options={chartConfig}/>
       </div>
     )
   }
