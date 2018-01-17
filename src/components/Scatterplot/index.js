@@ -1,108 +1,52 @@
 import React, { Component } from 'react'
 import { Scatter } from 'react-chartjs-2'
-import { prepareArrayPropsForChart } from '../../services/dataParser'
+import { preparePointsArrayForChart } from '../../services/dataParser'
+import { legendConfig, chartConfig, dataConfig } from './scatterConfig'
 
 class Scatterplot extends Component {
 
-  render () {
-    prepareArrayPropsForChart(this.props.plotpoints)
+  state = {
+    plotPoints: []
+  }
 
-    const legendConfig = {
-      display: true,
-      position: 'top',
-      labels: {
-        usePointStyle: true,
-        fontColor: '#8e8e8e',
-        fontFamily: 'sans-serif',
-        fontSize: 16,
-        padding: 24,
-      },
-      onClick: null
-    }
+  componentWillMount () {
 
-    const data = {
-      datasets: [{
-        label: 'pass',
-        backgroundColor: 'rgba(101,182,60,1)',
-        pointBackgroundColor: 'rgba(101,182,60,1)',
-        pointRadius: 10,
-        data: this.props.plotpoints.filter((item) => item.status === 'pass')
-      },
-        {
-          label: 'error',
-          backgroundColor: 'rgba(245,128,49,1)',
-          pointBackgroundColor: 'rgba(245,128,49,1)',
-          pointRadius: 10,
-          data: this.props.plotpoints.filter((item) => item.status === 'error')
+    const plotPoints = preparePointsArrayForChart(this.props.plotPoints)
+    console.log();
+    this.setState({
+      chartData: {
+        datasets: [{
+          label: dataConfig.passLabel,
+          backgroundColor: dataConfig.passColor,
+          pointBackgroundColor: dataConfig.passColor,
+          pointRadius: dataConfig.pointRadius,
+          data: plotPoints.filter((item) => item.status === dataConfig.passLabel)
         },
-        {
-          label: 'fail',
-          backgroundColor: 'rgba(232,55,63,1)',
-          pointBackgroundColor: 'rgba(232,55,63,1)',
-          pointRadius: 10,
-          data: this.props.plotpoints.filter((item) => item.status === 'fail')
-        }]
-    }
-
-    const chartConfig = {
-      onClick: function (e) {
-
-        const elements = this.getElementAtEvent(e)
-
-        if (elements.length > 0 && elements[0]._model.radius === 10) {
-          this.update()
-          elements[0]._model.radius = 20
-          elements[0]._model.borderWidth = 10
-          elements[0]._model.borderColor = "rgba(225,225,225,1)"
-        } else if (elements.length > 0 && elements[0]._model.radius === 20) {
-          this.update()
-        }
-      },
-      hover: {
-        mode: false
-      },
-      tooltips: {
-        enabled: false
-      },
-      scales: {
-        xAxes: [{
-          gridLines: {
-            display: false,
-            drawTicks: true
+          {
+            label: dataConfig.errorLabel,
+            backgroundColor: dataConfig.errorColor,
+            pointBackgroundColor: dataConfig.errorColor,
+            pointRadius: dataConfig.pointRadius,
+            data: plotPoints.filter((item) => item.status === dataConfig.errorLabel)
           },
-          ticks: {
-            fontSize: 20,
-            fontColor: '#B6BEC6'
-          },
-          type: 'time',
-          time: {
-            displayFormats: {
-              month: 'MMM YYYY'
-            }
-          }
-        }],
-        yAxes: [{
-          gridLines: {
-            borderDash: [8, 8],
-            lineWidth: 2,
-            zeroLineColor: 'rgba(230,234,239,1)',
-            zeroLineWidth: 2
-          },
-          ticks: {
-            fontSize: 20,
-            fontColor: '#B6BEC6',
-            min: 0,
-            max: 300,
-            stepSize: 30,
-            callback: (value, index, values) => value % 60 === 0 && value !== 0 ? `${value / 60} min` : ''
-          }
-        }]
+          {
+            label: dataConfig.failLabel,
+            backgroundColor: dataConfig.failColor,
+            pointBackgroundColor: dataConfig.failColor,
+            pointRadius: dataConfig.pointRadius,
+            data: plotPoints.filter((item) => item.status === dataConfig.failLabel)
+          }]
       }
-    }
+    })
+
+    console.log(plotPoints);
+  }
+
+  render () {
 
     return (
       <div>
-        <Scatter data={data} legend={legendConfig} options={chartConfig}/>
+        <Scatter data={this.state.chartData} legend={legendConfig} options={chartConfig}/>
       </div>
     )
   }

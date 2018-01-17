@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Scatterplot from './components/Scatterplot'
-import {getPlotpoints} from './services/dataParser'
+import { getPlotPoints } from './services/dataParser'
 
 class App extends Component {
 
   state = {
-    plotpoints: []
+    plotPoints: []
   }
 
-  componentWillMount(){
+  componentWillMount () {
     this.setState({
-      plotpoints: getPlotpoints()
+      plotPoints: getPlotPoints()
     })
   }
 
-  render() {
+  render () {
     return (
       <div className="App">
-        <Scatterplot plotpoints={this.state.plotpoints}/>
+        <Scatterplot plotPoints={this.state.plotPoints}/>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

@@ -1,22 +1,16 @@
 import data from '../data.json'
 
-const getPlotpoints = () => data
+const getPlotPoints = () => data
 
-const prepareArrayPropsForChart = (arr) => {
+const preparePointsArrayForChart = (arr) => {
 
-  const replaceProps = (obj) => {
-    obj.x = obj['start_time']
-    obj.y = obj['duration']
-
-    delete obj['start_time']
-    delete obj['duration']
-  }
-
-  arr.forEach(item => {
-    replaceProps(item)
-  })
-
-  return arr
+  return [...arr].map(item => (
+    {
+      x: item['start_time'],
+      y: item['duration'],
+      status: item['status']
+    }
+  ))
 }
 
-export {getPlotpoints, prepareArrayPropsForChart}
+export {getPlotPoints, preparePointsArrayForChart}
