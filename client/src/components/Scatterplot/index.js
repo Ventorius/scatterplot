@@ -7,7 +7,7 @@ class Scatterplot extends Component {
 
   state = {
     plotPoints: [],
-    loading: true
+    loading: true,
   }
 
   componentWillReceiveProps (nextProps) {
@@ -43,7 +43,10 @@ class Scatterplot extends Component {
   render () {
     return (
       this.state.loading ? <div>Loading</div> :
-        <Scatter data={this.state.chartData} legend={legendConfig} options={chartConfig}/>
+        <div>
+          <Scatter data={this.state.chartData} legend={legendConfig} options={chartConfig}/>
+        </div>
+        
     )
   }
 }
