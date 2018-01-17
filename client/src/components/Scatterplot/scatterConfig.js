@@ -10,6 +10,7 @@ const legendConfig = {
   },
   onClick: null
 }
+
 const chartConfig = {
   onClick: function (e) {
     const elements = this.getElementAtEvent(e)
@@ -37,10 +38,11 @@ const chartConfig = {
       },
       ticks: {
         fontSize: 20,
-        fontColor: '#B6BEC6'
+        fontColor: '#B6BEC6',
       },
       type: 'time',
       time: {
+        minUnit: 'day',
         displayFormats: {
           month: 'MMM YYYY'
         }
@@ -64,6 +66,7 @@ const chartConfig = {
     }]
   }
 }
+
 const dataConfig = {
   passColor: 'rgba(101,182,60,1)',
   failColor: 'rgba(232,55,63,1)',
