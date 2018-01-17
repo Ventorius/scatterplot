@@ -45,6 +45,19 @@ class Scatterplot extends Component {
     }
 
     const chartConfig = {
+      onClick: function (e) {
+
+        const elements = this.getElementAtEvent(e)
+
+        if (elements.length > 0 && elements[0]._model.radius === 10) {
+          this.update()
+          elements[0]._model.radius = 20
+          elements[0]._model.borderWidth = 10
+          elements[0]._model.borderColor = "rgba(225,225,225,1)"
+        } else if (elements.length > 0 && elements[0]._model.radius === 20) {
+          this.update()
+        }
+      },
       hover: {
         mode: false
       },
@@ -55,10 +68,11 @@ class Scatterplot extends Component {
         xAxes: [{
           gridLines: {
             display: false,
+            drawTicks: true
           },
           ticks: {
             fontSize: 20,
-            fontColor: '#B6BEC6',
+            fontColor: '#B6BEC6'
           },
           type: 'time',
           time: {
