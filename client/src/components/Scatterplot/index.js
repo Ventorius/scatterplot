@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { Scatter } from 'react-chartjs-2'
-import { preparePointsArrayForChart } from '../../services/dataParser'
+import preparePointsArrayForChart from '../../services/dataParser'
 import { legendConfig, chartConfig, dataConfig } from './scatterConfig'
 
 class Scatterplot extends Component {
 
   state = {
-    plotPoints: []
+    plotPoints: [],
+    loading: true
   }
 
-  componentWillMount () {
-
-    const plotPoints = preparePointsArrayForChart(this.props.plotPoints)
-    console.log();
+  componentWillReceiveProps (nextProps) {
+    const plotPoints = preparePointsArrayForChart(nextProps.plotPoints)
     this.setState({
+      loading: false,
       chartData: {
         datasets: [{
           label: dataConfig.passLabel,
@@ -38,21 +38,14 @@ class Scatterplot extends Component {
           }]
       }
     })
-
-    console.log(plotPoints);
   }
 
   render () {
-
     return (
-      <div>
+      this.state.loading ? <div>Loading</div> :
         <Scatter data={this.state.chartData} legend={legendConfig} options={chartConfig}/>
-      </div>
     )
   }
 }
-
-Scatterplot.propTypes = {}
-Scatterplot.defaultProps = {}
 
 export default Scatterplot

@@ -1,7 +1,3 @@
-import data from '../data.json'
-
-const getPlotPoints = () => data
-
 const preparePointsArrayForChart = (arr) => {
 
   return [...arr].map(item => (
@@ -13,4 +9,4 @@ const preparePointsArrayForChart = (arr) => {
   ))
 }
 
-export {getPlotPoints, preparePointsArrayForChart}
+export default preparePointsArrayForChart

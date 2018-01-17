@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Scatterplot from './components/Scatterplot'
-import { getPlotPoints } from './services/dataParser'
 
 class App extends Component {
 
@@ -8,10 +7,16 @@ class App extends Component {
     plotPoints: []
   }
 
-  componentWillMount () {
+  fetchPlotPoints = async () => {
+    const res = await fetch('http://localhost:5000/plotpoints')
+    const plotPoints = await res.json()
     this.setState({
-      plotPoints: getPlotPoints()
+      plotPoints
     })
+  }
+
+  componentWillMount () {
+    this.fetchPlotPoints()
   }
 
   render () {
