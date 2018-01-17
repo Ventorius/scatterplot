@@ -8,5 +8,5 @@ We can run project by using `npm start` command in main catalogue. Backend api s
 Although component should be opened automatically by wepack dev server, below are links to separate apps:
 
 http://localhost:3000 -> React frontend
-htto://localhost:5000/plotpoints -> Backend with test json data
+http://localhost:5000/plotpoints -> Backend with test json data
 
